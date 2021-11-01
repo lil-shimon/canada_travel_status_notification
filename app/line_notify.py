@@ -3,4 +3,12 @@ import config
 
 def push_notify():
   TOKEN = config.LINE_API
-  print(TOKEN)
+  headers = {"Authorization": f"Bearer {TOKEN}"}
+  data = {
+    "message": "test"
+  }
+  requests.post(
+    "https://notify-api.line.me/api/notify",
+    headers=headers,
+    data=data
+  )
