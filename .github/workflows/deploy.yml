@@ -1,0 +1,6 @@
+name: Deploy to Amazon Lambda
+
+on:
+  push:
+    branches:
+      - main
