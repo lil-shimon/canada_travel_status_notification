@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_status_handler():
+  """ get_status_handler
+      カナダ全土のレベルステータスを取得し、返す
+  """
   url = 'https://www.ca.emb-japan.go.jp/itpr_ja/Covid19_20200330.html'
   res = requests.get(url)
 
@@ -14,5 +17,4 @@ def get_status_handler():
 
   ## カナダ全土のレベルステータス
   canada_travel_status = elems[16].contents[0]
-  print(canada_travel_status)
-
+  return canada_travel_status
