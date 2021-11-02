@@ -2,11 +2,31 @@ import requests
 import config
 from bs4 import BeautifulSoup
 
-url = 'https://www.ca.emb-japan.go.jp/itpr_ja/Covid19_20200330.html'
-res = requests.get(url)
+def get_handler(type):
+  """
+  カナダ全土のレベルステータスなどを取得し、返す
 
-## 文字化け直す
-res.encoding = res.apparent_encoding
+  Parameters
+  ----------
+  type : int
+      取得したいデータのタイプ。1の場合レベルステータス
+  
+  Returns
+  -------
+       : string
+      現在の渡航状況や詳細など
+  """
+  url = 'https://www.ca.emb-japan.go.jp/itpr_ja/Covid19_20200330.html'
+  res = requests.get(url)
+
+  ## 文字化け直す
+  res.encoding = res.apparent_encoding
+
+  soup = BeautifulSoup(res.text, "html.parser")
+  elems = soup.find_all('span')
+
+  return elems[16].contents[0] if type == 1 else elems[18].contents[0]
+
 
 def get_status_handler():
   """
