@@ -1,6 +1,6 @@
 import requests
-import config
 from bs4 import BeautifulSoup
+from config import (MessageType, STATUS, DESCRIPTION)
 
 def get_handler(type):
   """
@@ -25,7 +25,7 @@ def get_handler(type):
   soup = BeautifulSoup(res.text, "html.parser")
   elems = soup.find_all('span')
 
-  return elems[16].contents[0] if type == config.MessageType.STATUS.value else elems[18].contents[0]
+  return elems[16].contents[0] if type == MessageType.STATUS.value else elems[18].contents[0]
 
 
 def get_status_handler():
@@ -78,5 +78,5 @@ def check_updated_status(message, type):
   True | False : bool
       比較して更新されているかどうか
   """
-  prev = config.STATUS if type == config.MessageType.STATUS.value else config.DESCRIPTION
+  prev = STATUS if type == MessageType.STATUS.value else DESCRIPTION
   return False if message == prev else True
