@@ -2,8 +2,17 @@ import requests
 import config
 
 def push_notify(message):
-  """ push_notify
-      パラメータmessageをLINEで通知する
+  """
+  push notification to line
+
+  Parameters
+  ----------
+  message : str
+    message to send
+  
+  Returns
+  -------
+  None
   """
   TOKEN = config.LINE_API
   headers = {"Authorization": f"Bearer {TOKEN}"}

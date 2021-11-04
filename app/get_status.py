@@ -1,23 +1,21 @@
 import requests
 from bs4 import BeautifulSoup
 from config import (MessageType, STATUS, DESCRIPTION)
+from services.search_service import check_included
 
-def get_handler(type):
+URL = 'https://www.ca.emb-japan.go.jp/itpr_ja/Covid19_20200330.html'
+INCLUDED = ["レベル", "完了した渡航者"]
+
+def get_handler():
   """
   カナダ全土のレベルステータスなどを取得し、返す
-
-  Parameters
-  ----------
-  type : int
-      取得したいデータのタイプ。1の場合レベルステータス
   
   Returns
   -------
        : string
       現在の渡航状況や詳細など
   """
-  url = 'https://www.ca.emb-japan.go.jp/itpr_ja/Covid19_20200330.html'
-  res = requests.get(url)
+  res = requests.get(URL)
 
   ## 文字化け直す
   res.encoding = res.apparent_encoding
@@ -25,8 +23,11 @@ def get_handler(type):
   soup = BeautifulSoup(res.text, "html.parser")
   elems = soup.find_all('span')
 
-  return elems[16].contents[0] if type == MessageType.STATUS.value else elems[18].contents[0]
-
+  lists = []
+  for elem in elems:
+    if check_included(elem.contents[0], INCLUDED):
+      lists.append(elem.contents[0])
+  return lists
 
 def get_status_handler():
   """
